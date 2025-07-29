@@ -72,13 +72,13 @@
                                     }, $role->permissions());
                                 @endphp
 
-                                {{-- <div class="grid grid-cols-3 gap-2"> --}}
-                                @foreach ($assignedPermissions as $permission)
-                                    <span class="m-1 py-1 px-2 bg-blue-400 text-white rounded-2xl text-xs">
-                                        {{ $permission }}
-                                    </span>
-                                @endforeach
-                                {{-- </div> --}}
+                                <div class="flex gap-1">
+                                    @foreach ($assignedPermissions as $permission)
+                                        <span class="m-1 py-1 px-2 bg-blue-400 text-white rounded-2xl text-xs">
+                                            {{ $permission }}
+                                        </span>
+                                    @endforeach
+                                </div>
 
                             </td>
                             <td class="py-2 px-4 space-x-2">

@@ -4,14 +4,16 @@
         <div class="w-1/2 mx-auto">@include('layout.server_response')</div>
         <div class="flex justify-between mb-2">
             <h5 class="text-gray-600 font-bold text-2xl">{{ $title }}<h5>
-                    <div>
-                        @php
-                            $route = Auth::user()->hasRole('Super Admin')
-                                ? route('users.create-university-admin')
-                                : route('users.create-university-user');
-                        @endphp
-                        <a href="{{ $route }}" class="btn btn-primary">+ Add User</a>
-                    </div>
+                    @if (Auth::user()->hasPermission('create_user'))
+                        <div>
+                            @php
+                                $route = Auth::user()->hasRole('Super Admin')
+                                    ? route('users.create-university-admin')
+                                    : route('users.create-university-user');
+                            @endphp
+                            <a href="{{ $route }}" class="btn btn-primary">+ Add User</a>
+                        </div>
+                    @endif
         </div>
         <table class="table_style">
             <thead>
@@ -55,7 +57,7 @@
                         <td>{{ date('d M, Y', strtotime($user->created_at)) }}</td>
                         <td class="text-end">
                             <form action="{{ route('users.enableOrDisable') }}" method="POST" class="enable_disable_form">
-                                @if ($userType == 'staffs')
+                                @if (Auth::user()->hasPermission('assign_user_role'))
                                     <button type="button" data-toggle="modal" data-target="assignUserRoleModal"
                                         data-assigned-roles="{{ json_encode($user->getRoles(['id', 'role_name'])) }}"
                                         data-user-id="{{ $user->id }}"

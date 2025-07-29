@@ -78,7 +78,7 @@ class User extends Authenticatable implements
         if ($role_ids->isEmpty()) {
             return collect(); // or return false, but collect() is more Laravel-ish
         }
-        return Role::whereIn('_id', $role_ids)->orderBy('role_name')->get($fields);
+        return Role::whereIn('_id', $role_ids)->where('enabled', true)->orderBy('role_name')->get($fields);
     }
 
     
@@ -90,7 +90,7 @@ class User extends Authenticatable implements
             return false;
         }
 
-        return Role::whereIn('_id', $role_ids)->pluck("role_name")->toArray();
+        return Role::whereIn('_id', $role_ids)->where('enabled', true)->pluck("role_name")->toArray();
     }
 
 

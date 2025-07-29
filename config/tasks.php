@@ -55,4 +55,10 @@ return [
         'description' => 'An administrative task for creating user',
         'view_file' => null
     ],  
+    [
+        'task_name' => 'assign_user_role',
+        'label' => 'Assign Role To User',
+        'description' => 'An administrative task for assigning a role to a user or remove a role from user',
+        'view_file' => null
+    ],  
 ];
