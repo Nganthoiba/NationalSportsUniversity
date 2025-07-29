@@ -50,7 +50,7 @@ class Menu{
             }
         }
         usort($permittedMenus, function ($a, $b) {
-            return $a['displayOrder'] <=> $b['displayOrder'];
+            return ($a['displayOrder']??0) <=> ($b['displayOrder']??0);
         });
         return $permittedMenus;
     }
