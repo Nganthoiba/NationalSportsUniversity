@@ -1,0 +1,1 @@
+["SUCCESS",[["namaste",["नमस्ते"],[],{"candidate_type":[0]}]]]

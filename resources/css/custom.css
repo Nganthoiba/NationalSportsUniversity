@@ -1,0 +1,593 @@
+body {
+    background-color: #ecebeb;
+}
+
+.error {
+    color: red;
+}
+
+@font-face {
+    font-family: 'Kokila';
+    src: url('../fonts/Kokila.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NotoSansDevanagari-Regular';
+    src: url('../fonts/NotoSansDevanagari-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.vertical-align-middle {
+    vertical-align: middle !important;
+}
+
+.text-hindi {
+    font-family: 'NotoSansDevanagari-Regular', sans-serif;
+    /* font-size: 1.1rem; */
+}
+
+a.selector {
+    margin: 10px;
+    padding: 5px 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+a.active {
+    background-color: rgb(151, 166, 253);
+    color: #03126d;
+}
+
+.signed-info {
+    background-color: #f1d061;
+    border-radius: 6px;
+    padding: 4px 8px;
+}
+
+.data-missmatched {
+    background-color: #f0e769;
+}
+
+.container {
+    margin: auto;
+}
+
+/*input[type='text'],*/
+
+.form-input,
+.form-select {
+    padding: 6px 5px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-input:disabled,
+.form-select:disabled {
+    cursor: not-allowed;
+    background-color: #e7e8e9;
+}
+
+.search-field,
+.search-option {
+    font-size: 0.8rem;
+    border: 1px solid #c0bfbf;
+    padding: 2px 4px !important;
+    border-radius: 4px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/*input[type='text']:focus,*/
+.form-input:focus,
+.form-select:focus,
+.search-field:focus,
+.search-option:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    /**applying transition **/
+
+}
+
+/* .dt-search {
+    display: none !important;
+} */
+
+/** buttons **/
+.btn {
+    padding: 5px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.btn-sm {
+    padding: 2px 4px;
+    font-size: 0.8rem;
+}
+
+.btn:hover {
+    background-color: #e0e0e0;
+}
+
+/** Primary Button **/
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/** Secondary Button **/
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/** Danger Button **/
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/** Success Button **/
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+/** Warning Button **/
+.btn-warning {
+    background-color: #ffc107;
+    color: black;
+    border: none;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+/** Info Button **/
+.btn-info {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+}
+
+/** Outline Buttons **/
+.btn-outline-primary {
+    background-color: transparent;
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-outline-secondary {
+    background-color: transparent;
+    color: #6c757d;
+    border: 1px solid #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-outline-danger {
+    background-color: transparent;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-outline-success {
+    background-color: transparent;
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.btn-outline-success:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-outline-warning {
+    background-color: transparent;
+    color: #ffc107;
+    border: 1px solid #ffc107;
+}
+
+.btn-outline-warning:hover {
+    background-color: #ffc107;
+    color: black;
+}
+
+.btn-outline-info {
+    background-color: transparent;
+    color: #17a2b8;
+    border: 1px solid #17a2b8;
+}
+
+.btn-outline-info:hover {
+    background-color: #17a2b8;
+    color: white;
+}
+
+/*** End of Buttons ***/
+
+
+@media screen and (max-width:680px) {
+    .user-menu-layout {
+        display: none !important;
+    }
+}
+
+/***** Table Styles ***/
+.table_style {
+    width: 100% !important;
+    border-collapse: collapse;
+    border: 1px solid #ddd !important;
+    overflow-x: auto;
+    background-color: #ffffff;
+    font-size: 0.7em;
+}
+
+.table_style,
+.table_style td {
+    border-bottom: 1px solid #ddd;
+}
+
+.table_style th {
+    font-size: 0.92rem;
+    background-color: rgb(170 199 199);
+    text-align: left;
+}
+
+.table_style th,
+.table_style td {
+    padding: 10px 6px;
+}
+
+.table_style-striped tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table_style-striped tr:hover {
+    background-color: #ddd;
+}
+
+.table_style tr:checked {
+    background-color: #ddd;
+}
+
+.yellow_header th {
+    background-color: #f97e12 !important;
+    color: #FFFFFF;
+}
+
+.blue_header th {
+    background-color: #1a4c6a !important;
+    color: #FFFFFF;
+}
+
+.purple_header tr th {
+    background-color: #6b5b87 !important;
+    color: #FFFFFF;
+}
+
+/*Scrollable Table Style*/
+.table-scroll {
+    /*width:100%; */
+    display: block;
+    empty-cells: show;
+
+    /* Decoration */
+    border-spacing: 0;
+    border: 1px solid;
+}
+
+.table-scroll thead {
+    background-color: #f1f1f1;
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.table-scroll tbody {
+    /* Position */
+    display: block;
+    position: relative;
+    width: 100%;
+    overflow-y: scroll;
+    /* Decoration */
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 10px;
+
+}
+
+.table-scroll .tbody_max_height {
+    max-height: 68vh;
+}
+
+.table-scroll tr {
+    width: 100%;
+    display: flex;
+}
+
+.table-scroll td,
+.table-scroll th {
+    flex-basis: 20%;
+    flex-grow: 2;
+    display: block;
+    /*text-align:left;*/
+}
+
+.strikethrough {
+    text-decoration: line-through;
+    color: rgb(233, 82, 82);
+}
+
+.current-data {
+    color: #41775c;
+    background-color: #dffbe6;
+}
+
+.new-data {
+    color: #2f855a;
+    font-weight: bold;
+}
+
+table.student-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Tailwind's text-sm */
+}
+
+table.student-table thead th {
+    background-color: #f3f4f6;
+    /* Tailwind's gray-100 */
+    color: #374151;
+    /* Tailwind's gray-700 */
+    padding: 4px 7px;
+    vertical-align: top !important;
+
+}
+
+table.student-table tbody td {
+    padding: 4px 7px;
+    vertical-align: top !important;
+}
+
+table.student-table tbody tr:hover {
+    background-color: #f9fafb;
+    /* Tailwind's gray-50 */
+}
+
+table.student-table tbody tr:nth-child(even) {
+    background-color: #f3f4f6;
+    /* Tailwind's gray-100 */
+}
+
+/* except the last row */
+table.student-table tbody tr:not(:last-child) {
+    border-bottom: #d0e0f0 solid 1px;
+}
+
+.text-start {
+    text-align: left !important;
+}
+
+.text-end {
+    text-align: right !important;
+}
+
+.worksheet-btn {
+    margin: 3px 5px;
+    cursor: pointer;
+    background-color: #668179;
+    color: #fff;
+}
+
+.worksheet-btn:hover {
+    background-color: #92b3a9;
+}
+
+.worksheet-btn.active {
+    background-color: #66a1e9;
+}
+
+#excelPreview {
+    background-color: inherit;
+    background: inherit;
+}
+
+#excel-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    background: inherit;
+    font-size: 0.75rem;
+}
+
+#excel-table th,
+#excel-table td {
+    border: 1px solid #d1d5db;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+#excel-table thead tr {
+    background-color: #f3f4f6;
+}
+
+#excel-table th {
+    font-weight: bold;
+    color: #4b5563;
+}
+
+#excel-table tbody tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+option.disabled {
+    display: none;
+}
+
+/** custom alert-box **/
+.alert-box {
+    display: none;
+}
+
+.alert-box.show-alert-box {
+    display: block !important;
+}
+
+.loader-wrapper {
+    /*display: flex;*/
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Full screen */
+}
+
+.loader {
+    border: 6px solid #f3f3f3;
+    /* Light gray */
+    border-top: 6px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: auto;
+    /* Center horizontally */
+}
+
+button .loader {
+    border: 3px solid #f3f3f3 !important;
+    border-top: 3px solid #3498db !important;
+    width: 20px;
+    height: 20px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.permission-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.permission-item {
+    padding: 5px 8px;
+    background: #b8bee0;
+    color: #444141;
+    border-radius: 6px;
+    margin: 5px;
+    font-size: 0.87rem;
+}
+
+.permission-item label {
+    cursor: pointer;
+}
+
+/** css for badges **/
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.35rem;
+    margin: 2px 4px;
+}
+
+/* Badge Variants */
+.badge-default {
+    background-color: #bbcdd8;
+    color: #0056b3 !important;
+}
+
+.badge-primary {
+    background-color: #007bff;
+}
+
+.badge-secondary {
+    background-color: #6c757d;
+}
+
+.badge-success {
+    background-color: #28a745;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+    color: #212529;
+    /* Use dark text on light background */
+}
+
+.badge-info {
+    background-color: #17a2b8;
+}
+
+.badge-light {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+.badge-dark {
+    background-color: #343a40;
+}

@@ -1,0 +1,16 @@
+/* Style DataTable UI with Tailwind look */
+.dataTables_wrapper {
+    @apply text-gray-700;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    @apply border px-2 py-1 rounded;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    @apply border px-2 py-1 rounded;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    @apply px-2 py-1 border rounded mx-1 text-blue-500 hover:bg-blue-100;
+}
