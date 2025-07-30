@@ -53,22 +53,9 @@ return [
     [
         'menu_name' => 'Courses',
         'menu_label' => 'Courses',
-        'route' => null,
+        'route' => 'courses.list',
         'allowed_roles' => [],
-        'sub_menus' => [
-            [
-                'menu_name' => 'Showcourses',
-                'menu_label' => 'Show courses',
-                'route' => ('courses.list'),
-                'allowed_roles' => ['University Admin'],
-            ],
-            [
-                'menu_name' => 'AddCourses',
-                'menu_label' => 'Add Courses',
-                'route' => ('courses.add'),
-                'allowed_roles' => ['University Admin'],
-            ],
-        ],
+        'sub_menus' => [],
         'displayOrder' => 8,
     ],
     [

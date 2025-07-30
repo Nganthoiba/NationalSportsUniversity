@@ -1,5 +1,5 @@
 <?php
-/** Task registration configuration */
+/** These are the permissions which will be assigned to users */
 return [
     [
         'task_name' => 'excel_file_upload',
@@ -59,6 +59,18 @@ return [
         'task_name' => 'assign_user_role',
         'label' => 'Assign Role To User',
         'description' => 'An administrative task for assigning a role to a user or remove a role from user',
+        'view_file' => null
+    ],  
+    [
+        'task_name' => 'add_department',
+        'label' => 'Add Department',
+        'description' => 'An administrative task for adding department',
+        'view_file' => null
+    ],  
+    [
+        'task_name' => 'add_course',
+        'label' => 'Add Course',
+        'description' => 'An administrative task for adding department',
         'view_file' => null
     ],  
 ];
