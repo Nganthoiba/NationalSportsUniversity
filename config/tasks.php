@@ -62,15 +62,27 @@ return [
         'view_file' => null
     ],  
     [
+        'task_name' => 'view_department',
+        'label' => 'Department',
+        'description' => 'An administrative task for viewing department',
+        'view_file' => null
+    ],  
+    [
         'task_name' => 'add_department',
         'label' => 'Add Department',
         'description' => 'An administrative task for adding department',
         'view_file' => null
     ],  
     [
+        'task_name' => 'view_course',
+        'label' => 'Course',
+        'description' => 'An administrative task for viewing course',
+        'view_file' => null
+    ],  
+    [
         'task_name' => 'add_course',
         'label' => 'Add Course',
-        'description' => 'An administrative task for adding department',
+        'description' => 'An administrative task for adding course',
         'view_file' => null
     ],  
 ];
