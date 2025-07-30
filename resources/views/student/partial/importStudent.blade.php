@@ -8,9 +8,9 @@
     'hasExistingData' => $hasExistingData,
 ])
 <div id="importStudentLayout">
-    {{-- <div class="w-2/3 mx-auto">
+    <div class="w-2/3 mx-auto">
         @include('layout.server_response')
-    </div> --}}
+    </div>
     <!-- Form for importing students -->
     <form name="importStudentsForm" id="importStudentsForm" action="{{ route('excel.importStudents') }}" method="POST"
         class="alert-box" enctype="multipart/form-data">
@@ -27,10 +27,14 @@
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Please upload a valid excel file to
                         import
                         students' record. And make sure that the excel file has proper heading fields.</p>
-
-                    <label for="studentExcelFile" class="text-sm font-medium text-gray-900 dark:text-gray-300">Upload
-                        Excel
-                        File</label>
+                    <div class="my-2">
+                        <label for="batch">Enter Batch</label>
+                        <input type="text" name="batch" id="batch"
+                            class="border border-gray-300 p-2 rounded-lg relative w-full mt-2 cursor-pointer batch-field" />
+                    </div>
+                    <label for="studentExcelFile" class="text-sm font-medium text-gray-900 dark:text-gray-300">
+                        Upload Excel File
+                    </label>
                     <input type="file" name="excel_file" id="studentExcelFile" accept=".xls,.xlsx"
                         class="border border-gray-300 p-2 rounded-lg relative w-full mt-2 cursor-pointer" required>
 
@@ -129,15 +133,6 @@
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> --}}
 
 <script>
-    /* 
-    const importStudentsBtn = document.getElementById('importStudentsBtn');
-    importStudentsBtn.addEventListener('click', function() {
-        //document.forms['importStudentsForm'].classList.remove('hidden');
-        //document.getElementById('field_matching').classList.remove('hidden');
-        //scroll to import layout
-        document.getElementById("importStudentLayout").scrollIntoView(true);
-    }); */
-
     function openModal() {
         const modal = document.getElementById("myModal");
         const box = document.getElementById("modalBox");
@@ -281,77 +276,6 @@
                 hiddenInput.classList.add('matched');
             }
             cell.appendChild(fieldNameDisplay);
-
-            /* 
-            const select = document.createElement('select');
-            select.name = `matching_fields[${fieldName}]`;
-            //select.name = `${fieldName}`;
-            select.setAttribute('data-field-name', fieldName);
-            select.classList.add('form-select', 'w-full', 'matched-field');
-            select.required = true;
-            select.innerHTML = '<option value="">Select Matching Field</option>';
-
-            // Add an option for each header
-            headers.forEach(header => {
-                const option = document.createElement('option');
-                //option.value = header;
-                //header should be converted to lowercase and trimmed
-                header = header.toLowerCase().trim();
-                option.textContent = header;
-                select.appendChild(option);
-
-                //Set selected if fieldName matches the header in excel 
-                if (header === fieldName) {
-                    option.selected = true;
-                }
-            });
-
-            cell.innerHTML = ''; // Clear previous content
-
-            //check if select has value
-            if (select.value) {
-                // If the select already has a value, add a class to indicate it has been matched
-                cell.appendChild(select);
-                select.disabled = true; // Make it read-only if already matched
-                //select.classList.add('bg-gray-200', 'cursor-not-allowed');
-            } else {
-                cell.innerHTML = '<span class="text-red-500">Matching field not found</span>';
-            }
-
-            select.addEventListener('change', function(e) {
-                // Update the field matching display
-
-
-                const selectedValue = this.value;
-                //here set a class "selected" to the option that is selected
-                //if (selectedValue) {
-                //get the option element that is selected
-                const selectedOption = Array.from(this.options).find(option => option.value ===
-                    selectedValue);
-                if (selectedOption) {
-                    selectedOption.classList.add("selected");
-                }
-
-                //Now disable all other options other select elements whose options having the same value as the selected option
-                const allSelects = document.querySelectorAll('.matched-field');
-                allSelects.forEach(otherSelect => {
-                    if (otherSelect !== this || selectedValue.trim() === '') {
-                        // Disable the option in other selects which do not have the class "selected"                                
-                        Array.from(otherSelect.options).forEach(option => {
-                            if (hasFieldBeenTaken(option.value)) {
-                                //option.disabled = true; // Disable the option in other selects
-                                option.classList.add("disabled");
-                            } else {
-                                //option.disabled = false; // Enable other options    
-                                option.classList.remove("disabled");
-                            }
-                        });
-                    }
-                });
-
-                //}
-
-            }); */
         });
 
         const html = XLSX.utils.sheet_to_html(sheet, {
@@ -397,5 +321,15 @@
         }
         this.submit();
     };
+    // Example: apply input mask after DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        const element = document.querySelector('input.batch-field');
+        if (element) {
+            const maskOptions = {
+                mask: '0000-00' // Indian phone number format
+            };
+            IMask(element, maskOptions);
+        }
+    });
 </script>
 {{-- @endsection --}}

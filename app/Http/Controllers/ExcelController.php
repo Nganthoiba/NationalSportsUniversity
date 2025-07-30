@@ -42,6 +42,7 @@ class ExcelController extends Controller
                 'excel_file' => 'required|mimes:xlsx',
                 'matching_fields' => 'required|array',
                 'matching_fields.*' => 'required|string',
+                'batch' => 'required|string',
             ]);
         
         try {
@@ -103,6 +104,11 @@ class ExcelController extends Controller
             for($i = 0; $i < $studentCount; $i++){
             //foreach ($data as $student) {
                 $student = $data[$i];
+
+                if($request->batch !== $student['batch']){
+                    throw new Exception("Batch {$student['batch']} is invalid for the registration no. {$student['registration_no']}");
+                }
+
                 $recordExist = Student::where([
                     'registration_no' => trim($student['registration_no']),
                     //'status' => 0

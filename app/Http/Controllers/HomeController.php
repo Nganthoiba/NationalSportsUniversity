@@ -10,6 +10,7 @@ class HomeController extends Controller
     public function showDashboard() {
         $currentRole = session('currentRole');
         if($currentRole){
+
             if($currentRole->role_name == "Super Admin"){
                 return view('home.superAdminDashboard');
             }
@@ -26,9 +27,10 @@ class HomeController extends Controller
                 'compulsoryFields' => Student::$compulsoryFields,
             ]);
         }
+
         return view('layout.errorMessage',[
-            'title' => 'Session broken or expired',
-            'message' => 'Your session is either broken or expired, please login again to continue service.'
+            'title' => 'No Role Assigned',
+            'message' => 'No role is assigned to you or your assigned role is disabled.'
         ]);
         
     }

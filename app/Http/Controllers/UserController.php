@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\Mail;
 class UserController extends Controller
 {
     public function createUniversityUser(CreateUserRequest $request){
+
+        if(!Auth::user()->hasPermission('create_user')){
+            return view('layout.errorMessage',[
+                'title' => 'Not permitted',
+                'message' => 'Sorry, you do not have permission to create user.'
+            ]);
+        }
         
         $university = University::find(Auth::user()->university_id);
         return view('users.createUniversityStaff',[
@@ -27,6 +34,14 @@ class UserController extends Controller
     }
 
     public function createUser(CreateUserRequest $request){
+
+        if(!Auth::user()->hasPermission('create_user')){
+            return view('layout.errorMessage',[
+                'title' => 'Not permitted',
+                'message' => 'Sorry, you do not have permission to create user.'
+            ]);
+        }
+        
         $data = $request->validated();
 
         //Getting the mongodb client
@@ -100,6 +115,12 @@ class UserController extends Controller
     }
 
     public function createUniversityAdminUser(CreateUserRequest $request){
+        if(!Auth::user()->hasPermission('create_user')){
+            return view('layout.errorMessage',[
+                'title' => 'Not permitted',
+                'message' => 'Sorry, you do not have permission to create user.'
+            ]);
+        }
         return view('users.createUniversityAdmin',[
             'universities' => University::all(),
             'role' => Role::where('role_name', 'University Admin')->first()

@@ -24,15 +24,7 @@ return [
         'allowed_roles' => [], 
         'sub_menus' => [],
         'displayOrder' => 3,
-    ],
-    [
-        'menu_label' => 'Create User',
-        'menu_name' => 'CreateUser',
-        'route' => ('users.create-university-user'),
-        'allowed_roles' => [],
-        'sub_menus' => [],
-        'displayOrder' => 4,
-    ],
+    ],    
     [
         'menu_name' => 'ShowUniversityAdmin',
         'menu_label' => 'University Admin Users',
@@ -43,7 +35,7 @@ return [
     ],
     [
         'menu_name' => 'ShowUsers',
-        'menu_label' => 'Show Users',
+        'menu_label' => 'Users',
         'route' => ('users.university-users'),
         'allowed_roles' => [],
         'sub_menus' => [],
