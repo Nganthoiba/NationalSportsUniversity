@@ -84,14 +84,15 @@ Route::get('/testDB', function() {
 });
 
 Route::group(['prefix'=>'courses'], function(){
-    Route::get('/add', [CourseController::class, 'addCourse'])->name('courses.add');
-    Route::post('/add', [CourseController::class, 'addCourse']);
-    Route::get('/edit/{id?}', [CourseController::class, 'updateCourse'])->name('courses.edit');
-    Route::post('/edit/{id}', [CourseController::class, 'updateCourse']);
-    Route::get('/delete/{id}', [CourseController::class, 'deleteCourse'])->name('courses.delete');
-    Route::get('/list', [CourseController::class, 'listCourses'])->name('courses.list');
+    Route::get('/add', [CourseController::class, 'addCourse'])->name('courses.add')->middleware('auth');
+    Route::post('/add', [CourseController::class, 'addCourse'])->middleware('auth');
+    Route::get('/edit/{id?}', [CourseController::class, 'updateCourse'])->name('courses.edit')->middleware('auth');
+    Route::post('/edit/{id}', [CourseController::class, 'updateCourse'])->middleware('auth');
+    Route::get('/delete/{id}', [CourseController::class, 'deleteCourse'])->name('courses.delete')->middleware('auth');
+    Route::get('/list', [CourseController::class, 'listCourses'])->name('courses.list')->middleware('auth');
     Route::post('/enable-or-disable', [CourseController::class, 'enableOrDisable'])->name('course.EnableOrDisable');
 })->middleware('auth');
+
 Route::group(['prefix'=>'student'], function(){
     Route::get('/add', [StudentController::class, 'addNewStudent'])->name('addNewStudent')->middleware('auth');
     Route::post('/add', [StudentController::class, 'addNewStudent'])->middleware('auth');
