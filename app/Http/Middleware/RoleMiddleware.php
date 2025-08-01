@@ -17,7 +17,17 @@ class RoleMiddleware
     {
         $user = $request->user();
 
-        if (!$user || empty(array_diff($user->getAssignedRoles(), $roles))) {
+        $allowedRoles = array_map(function($item){
+            return strtolower($item);
+        }, $roles);
+
+        $assignedRoles = array_map(function($item){
+            return strtolower($item);
+        }, $user->getAssignedRoles());
+
+        //dd($allowedRoles, $assignedRoles);
+
+        if (!$user || empty(array_intersect($assignedRoles, $allowedRoles))) {
             abort(403, 'Unauthorized access.');
         }
         return $next($request);

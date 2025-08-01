@@ -22,20 +22,27 @@
                         $currentRole = session('currentRole');
                         $roles = Auth::user()->getRoles();
                     @endphp
+                    @if (!empty($roles))
+                        <div class="roles text-bold text-xs">
+                            {{-- {{ implode(',', Auth::user()->getAssignedRoles()) }} --}}
+                            <select name="roleOption" id="roleOption"
+                                class="cursor-pointer border border-gray-400 rounded-sm p-2" title="Switch User Role">
+                                <option value="">Switch Role</option>
+                                @foreach ($roles as $role)
+                                    @php
+                                        $selected = $currentRole
+                                            ? ($currentRole->id == $role->id
+                                                ? 'selected'
+                                                : '')
+                                            : '';
+                                    @endphp
+                                    <option value="{{ $role->id }}" {{ $selected }}>{{ $role->role_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
 
-                    <div class="roles text-bold text-xs">
-                        {{-- {{ implode(',', Auth::user()->getAssignedRoles()) }} --}}
-                        <select name="roleOption" id="roleOption"
-                            class="cursor-pointer border border-gray-400 rounded-sm p-2" title="Switch User Role">
-                            <option value="">Switch Role</option>
-                            @foreach ($roles as $role)
-                                @php
-                                    $selected = $currentRole ? ($currentRole->id == $role->id ? 'selected' : '') : '';
-                                @endphp
-                                <option value="{{ $role->id }}" {{ $selected }}>{{ $role->role_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     <div class="relative ml-3">
                         <div class="flex gap-2 text-end">
                             <button type="button"
@@ -111,7 +118,7 @@
             </button>
         </nav>
 
-        @if (Auth::check())
+        @if (Auth::check() && $currentRole)
             <!-- Menu Bar -->
             <div class="bg-gray-500 text-gray-300">
                 <div class="max-w-7xl mx-auto px-4">

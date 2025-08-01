@@ -60,7 +60,7 @@
                             </td>
                             <td class="py-2 px-4 space-between">
                                 @php
-                                    $tasks = config('tasks');
+                                    $tasks = config('permissions');
                                     // Build a flat associative array: ['task_name' => 'label', ...]
                                     $tasksMap = [];
                                     foreach ($tasks as $item) {
@@ -130,7 +130,7 @@
                             </td>
                             <td class="py-2 px-4">
                                 @php
-                                    $tasks = config('tasks');
+                                    $tasks = config('permissions');
                                     // Build a flat associative array: ['task_name' => 'label', ...]
                                     $tasksMap = [];
                                     foreach ($tasks as $item) {

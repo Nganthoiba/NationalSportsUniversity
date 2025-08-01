@@ -96,41 +96,60 @@
             checkBox.addEventListener('change', (e) => {
                 console.log("changing");
 
+
                 var flag = e.target.checked;
                 var course_id = e.target.value;
+                document.querySelector("#spinner_" + course_id).classList.remove("hidden");
 
                 var question = flag ? "Are you sure to enable this course?" :
                     "Are you sure to disable this course?";
 
-                if (!confirm(question)) {
-                    e.target.checked = !e.target.checked;
-                    return;
-                }
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: question,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: flag ? 'Yes, Enable' : 'Yes Disable',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
 
-                document.querySelector("#spinner_" + course_id).classList.remove("hidden");
-                fetch(enableOrDisableUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            id: course_id,
-                            flag: flag,
-                            _token: "{{ csrf_token() }}"
-                        })
-                    })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.message) {
-                            alert(data.message);
-                        }
-                        console.log(data);
+                        fetch(enableOrDisableUrl, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    id: course_id,
+                                    flag: flag,
+                                    _token: "{{ csrf_token() }}"
+                                })
+                            })
+                            .then((response) => response.json())
+                            .then((data) => {
+                                if (data.message) {
+                                    Swal.fire({
+                                        title: 'Done',
+                                        text: data.message,
+                                        icon: 'success'
+                                    });
+                                }
+                                console.log(data);
+                                document.querySelector("#spinner_" + course_id).classList.add(
+                                    "hidden");
+                            })
+                            .catch((error) => {
+                                console.error("Error: ", error);
+                            });
+
+                    } else {
                         document.querySelector("#spinner_" + course_id).classList.add("hidden");
-                    })
-                    .catch((error) => {
-                        console.error("Error: ", error);
-                    });
+                        e.target.checked = !e.target.checked;
+                    }
+                });
+
             });
         });
     </script>

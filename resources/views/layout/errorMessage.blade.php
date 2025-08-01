@@ -36,10 +36,17 @@
             {{ $message ?? 'An unexpected issue occurred. Please try again later or contact support.' }}
         </p>
 
-        <button onclick="history.back()"
-            class="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-700 transition">
-            ← Go Back
-        </button>
+        @if (isset($btn_link))
+            <a href="{{ $btn_link }}"
+                class="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-700 transition">
+                {{ $btn_label }}
+            </a>
+        @else
+            <button onclick="history.back()"
+                class="cursor-pointer inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-700 transition">
+                ← Go Back
+            </button>
+        @endif
     </div>
 
 </body>

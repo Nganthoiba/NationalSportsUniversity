@@ -35,7 +35,7 @@
         <label for="#" class="block text-sm font-medium text-gray-700">Assign permissions</label>
         <div class="mt-2 permission-grid">
             @php
-                $tasks = config('tasks');
+                $tasks = config('permissions');
             @endphp
             @foreach ($tasks as $task)
                 @php

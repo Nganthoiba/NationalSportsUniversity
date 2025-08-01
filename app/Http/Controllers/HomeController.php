@@ -29,8 +29,10 @@ class HomeController extends Controller
         }
 
         return view('layout.errorMessage',[
-            'title' => 'No Role Assigned',
-            'message' => 'No role is assigned to you or your assigned role is disabled.'
+            'title' => 'Unauthorized',
+            'message' => "You are unauthorized to access this page because no default role is found in session.",
+            'btn_link' => route('logout'),
+            'btn_label' => "Go to Login"
         ]);
         
     }

@@ -30,7 +30,7 @@ class UserRoleMappingController extends Controller
         
         $request->validate([
             'selected_user_id' => 'required',
-            'selected_roles' => 'required|array|min:1'
+            'selected_roles' => 'nullable|array|min:1'
         ]);
 
         //Getting the mongodb client
@@ -41,25 +41,30 @@ class UserRoleMappingController extends Controller
             // Start transaction
             $session->startTransaction(); 
             UserRoleMapping::where('user_id', $request->selected_user_id)->delete();
-
-            foreach($request->selected_roles as $role_id){
-                UserRoleMapping::create([
-                    'user_id' => $request->selected_user_id,
-                    'role_id' => $role_id,
-                    'created_by' => Auth::user()->_id
-                ]);
+            
+            if(!is_null($request->selected_roles)){
+                foreach($request->selected_roles as $role_id){
+                    UserRoleMapping::create([
+                        'user_id' => $request->selected_user_id,
+                        'role_id' => $role_id,
+                        'created_by' => Auth::user()->_id
+                    ]);
+                }
             }
+            $message = is_null($request->selected_roles)?"All roles have been removed from the user.":
+            "Selected roles have been assigned to the user successfully.";
+            
             //Now commit the transaction
             $session->commitTransaction();
             if($request->wantsJson()){
                 return response()->json([
-                    'message' => 'Roles assigned to the user successfully.'
+                    'message' => $message
                 ], 200);
             }
 
             return redirect()->back()->with([
                 'success' => true,
-                'message' => 'Roles assigned to the user successfully.',
+                'message' => $message,
             ]);
             
         }

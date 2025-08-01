@@ -30,8 +30,8 @@ Route::get('/', function () {
 
 Route::get('/generatePDF', [PdfController::class, 'generatePDF'])->name('generatePDF');
 
-Route::get('/home', [HomeController::class, 'showDashboard'])->name('home')->middleware('auth');
-Route::get('/dashboard', [HomeController::class, 'showDashboard'])->name('dashboard')->middleware('auth');
+Route::get('/home', [HomeController::class, 'showDashboard'])->name('home')->middleware(['auth','role.assigned']);
+Route::get('/dashboard', [HomeController::class, 'showDashboard'])->name('dashboard')->middleware(['auth','role.assigned']);
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::get('/switchRole/{roleId}', [LoginController::class, 'switchRole'])->name('switchRole');
@@ -50,19 +50,18 @@ Route::post('/verifyOTPandUpdatePassword',  [PasswordResetController::class, 've
 
 //User related routes
 Route::group(['prefix' => 'users'], function(){
-
     // Create University Admin Users
-    Route::get('/createUniversityAdminUser', [UserController::class, 'createUniversityAdminUser'])->name('users.create-university-admin');
+    Route::get('/createUniversityAdminUser', [UserController::class, 'createUniversityAdminUser'])->name('users.create-university-admin')->middleware(['auth','role.assigned', 'role:Super Admin']);
     // Create University Users(staffs)
-    Route::get('/createUniversityUser', [UserController::class, 'createUniversityUser'])->name('users.create-university-user');
+    Route::get('/createUniversityUser', [UserController::class, 'createUniversityUser'])->name('users.create-university-user')->middleware(['auth','role.assigned', 'role:University Admin']);
 
-    Route::post('/createUser', [UserController::class, 'createUser'])->name('users.create')->middleware('auth');
+    Route::post('/createUser', [UserController::class, 'createUser'])->name('users.create')->middleware(['auth','role.assigned', 'role:University Admin, Super Admin']);
 
     // Displaying users
-    Route::get('/university-admins', [UserController::class, 'getUniversityAdmins'])->name('users.university-admins')->middleware('auth');
-    Route::get('/university-users', [UserController::class, 'getUniversityUsers'])->name('users.university-users')->middleware('auth');
+    Route::get('/university-admins', [UserController::class, 'getUniversityAdmins'])->name('users.university-admins')->middleware(['auth','role.assigned']);
+    Route::get('/university-users', [UserController::class, 'getUniversityUsers'])->name('users.university-users')->middleware(['auth','role.assigned','role:University Admin']);
 
-    Route::post('/enable-or-disable',[UserController::class, 'enableOrDisable'])->name('users.enableOrDisable')->middleware('auth');
+    Route::post('/enable-or-disable',[UserController::class, 'enableOrDisable'])->name('users.enableOrDisable')->middleware(['auth','role.assigned','role:University Admin, Super Admin']);
 });
 
 Route::get('/forgotPassword', [PasswordResetController::class, 'forgotPassword'])->name('forgotPassword');
@@ -73,8 +72,7 @@ Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'
 
 
 Route::get('/resetAllPasswords', [UserController::class, 'resetAllPasswords']);
-Route::get('/testDB', function() {    
-
+Route::get('/testDB', function() { 
     try {
         $connection = DB::connection();
         dd(DB::connection()->getDatabaseName());
@@ -84,35 +82,35 @@ Route::get('/testDB', function() {
 });
 
 Route::group(['prefix'=>'courses'], function(){
-    Route::get('/add', [CourseController::class, 'addCourse'])->name('courses.add')->middleware('auth');
-    Route::post('/add', [CourseController::class, 'addCourse'])->middleware('auth');
-    Route::get('/edit/{id?}', [CourseController::class, 'updateCourse'])->name('courses.edit')->middleware('auth');
-    Route::post('/edit/{id}', [CourseController::class, 'updateCourse'])->middleware('auth');
-    Route::get('/delete/{id}', [CourseController::class, 'deleteCourse'])->name('courses.delete')->middleware('auth');
-    Route::get('/list', [CourseController::class, 'listCourses'])->name('courses.list')->middleware('auth');
+    Route::get('/add', [CourseController::class, 'addCourse'])->name('courses.add')->middleware(['auth','role.assigned']);
+    Route::post('/add', [CourseController::class, 'addCourse'])->middleware(['auth','role.assigned']);
+    Route::get('/edit/{id?}', [CourseController::class, 'updateCourse'])->name('courses.edit')->middleware(['auth','role.assigned']);
+    Route::post('/edit/{id}', [CourseController::class, 'updateCourse'])->middleware(['auth','role.assigned']);
+    Route::get('/delete/{id}', [CourseController::class, 'deleteCourse'])->name('courses.delete')->middleware(['auth','role.assigned']);
+    Route::get('/list', [CourseController::class, 'listCourses'])->name('courses.list')->middleware(['auth','role.assigned']);
     Route::post('/enable-or-disable', [CourseController::class, 'enableOrDisable'])->name('course.EnableOrDisable');
-})->middleware('auth');
+})->middleware(['auth','role.assigned']);
 
 Route::group(['prefix'=>'student'], function(){
-    Route::get('/add', [StudentController::class, 'addNewStudent'])->name('addNewStudent')->middleware('auth');
-    Route::post('/add', [StudentController::class, 'addNewStudent'])->middleware('auth');
+    Route::get('/add', [StudentController::class, 'addNewStudent'])->name('addNewStudent')->middleware(['auth','role.assigned']);
+    Route::post('/add', [StudentController::class, 'addNewStudent'])->middleware(['auth','role.assigned']);
     /* 
     Route::get('/create', [StudentController::class, 'createStudent'])->name('createStudent');
     Route::post('/create', [StudentController::class, 'createStudent']);
  */
-    Route::get('/requestForChange/{studentId}', [StudentController::class, 'requestForChange'])->name('requestForChange')->middleware('auth');
-    Route::post('/datachange', [StudentController::class, 'submitRequestForChange'])->name('student.datachange')->middleware('auth');
-    Route::post('/cancel-datachange', [StudentController::class, 'cancelDataChange'])->name('student.cancelDataChange')->middleware('auth');
+    Route::get('/requestForChange/{studentId}', [StudentController::class, 'requestForChange'])->name('requestForChange')->middleware(['auth','role.assigned']);
+    Route::post('/datachange', [StudentController::class, 'submitRequestForChange'])->name('student.datachange')->middleware(['auth','role.assigned']);
+    Route::post('/cancel-datachange', [StudentController::class, 'cancelDataChange'])->name('student.cancelDataChange')->middleware(['auth','role.assigned']);
 
-    Route::post('/approve-student', [StudentController::class, 'approveStudent'])->name('approveStudent')->middleware('auth');
-    Route::post('/approve-student-data-change', [StudentController::class, 'approveStudentDataChanges'])->name('approveStudentDataChanges')->middleware('auth');
+    Route::post('/approve-student', [StudentController::class, 'approveStudent'])->name('approveStudent')->middleware(['auth','role.assigned']);
+    Route::post('/approve-student-data-change', [StudentController::class, 'approveStudentDataChanges'])->name('approveStudentDataChanges')->middleware(['auth','role.assigned']);
     Route::post('/verify-student-info', [StudentController::class, 'verifyStudentInfo'])->name('student.verifyStudentInfo');
     
-    Route::get('/list/{status?}', [StudentController::class, 'displayStudents'])->name('displayStudents')->middleware('auth');
-    Route::get('/viewStudent/{studentId}', [StudentController::class, 'viewStudent'])->name('viewStudent')->middleware('auth');
+    Route::get('/list/{status?}', [StudentController::class, 'displayStudents'])->name('displayStudents')->middleware(['auth','role.assigned']);
+    Route::get('/viewStudent/{studentId}', [StudentController::class, 'viewStudent'])->name('viewStudent')->middleware(['auth','role.assigned']);
     Route::get('/showStudentDetails/{studentId}', [StudentController::class, 'showStudentDetails'])->name('showStudentDetails');
     Route::get('/showCertificate/{studentId}/{type?}', [StudentController::class, 'showCertificate'])->name('showCertificate');
-    Route::get('/data-change-list', [StudentController::class, 'displayDataChange'])->name('displayDataChange')->middleware('auth');
+    Route::get('/data-change-list', [StudentController::class, 'displayDataChange'])->name('displayDataChange')->middleware(['auth','role.assigned']);
     Route::get('/view-data-change-detail/{id}', [StudentController::class, 'viewDataChangeDetail'])->name('viewDataChangeDetail');
     Route::get('/view-data-change-histories/{id}', [StudentController::class, 'getDataChangeHistories'])->name('getDataChangeHistories');
 
@@ -122,14 +120,14 @@ Route::group(['prefix'=>'excel'], function(){
     Route::post('/importStudents', [ExcelController::class, 'importStudents'])->name('excel.importStudents');
 });
 Route::group(['prefix'=>'settings'], function(){
-    Route::get('/',[SettingController::class, 'userSetting'])->name('settings')->middleware('auth');
-    Route::get('/changePassword', [SettingController::class, 'changePassword'])->name('setting.changePassword')->middleware('auth');
-    Route::post('/changePassword', [SettingController::class, 'changePassword'])->middleware('auth');
+    Route::get('/',[SettingController::class, 'userSetting'])->name('settings')->middleware(['auth','role.assigned']);
+    Route::get('/changePassword', [SettingController::class, 'changePassword'])->name('setting.changePassword')->middleware(['auth','role.assigned']);
+    Route::post('/changePassword', [SettingController::class, 'changePassword'])->middleware(['auth','role.assigned']);
 });
 
 Route::resource('sports', SportsController::class);
 Route::group(['prefix'=>'sports'], function(){
-    Route::post('/enable/{sport_id}', [SportsController::class, 'enable'])->name('sports.enable')->middleware('auth');
+    Route::post('/enable/{sport_id}', [SportsController::class, 'enable'])->name('sports.enable')->middleware(['auth','role.assigned']);
 });
 
 Route::resource('departments', DepartmentController::class);
@@ -143,27 +141,27 @@ Route::resource('departments', DepartmentController::class);
     * PUT/PATCH	/departments/{department}	update	departments.update
 */
 Route::group(['prefix'=>'departments'], function(){
-    Route::post('/enable/{id}', [DepartmentController::class, 'enable'])->name('departments.enable')->middleware('auth');
+    Route::post('/enable/{id}', [DepartmentController::class, 'enable'])->name('departments.enable')->middleware(['auth','role.assigned']);
 });
 
 Route::resource('roles', RoleController::class);
 Route::group(['prefix'=>'roles'], function(){
-    Route::post('/enable/{role_id}', [RoleController::class, 'enable'])->name('roles.enable')->middleware('auth');
+    Route::post('/enable/{role_id}', [RoleController::class, 'enable'])->name('roles.enable')->middleware(['auth','role.assigned']);
 });
 
 
 Route::group(['prefix'=>'userrolemappings'], function(){
     Route::get('/get-assigned-roles/{user_id}', [UserRoleMappingController::class, 'getAssignedRoles'])
     ->name('userrolemappings.getAssignedRoles')
-    ->middleware('auth');
+    ->middleware(['auth','role.assigned']);
 
     Route::get('/assign-roles', [UserRoleMappingController::class, 'assignRoles'])
     ->name('userrolemappings.assignRoles')
-    ->middleware('auth');
+    ->middleware(['auth','role.assigned']);
 
     Route::post('/finalize-assignment', [UserRoleMappingController::class,'finalizeAssignment'])
     ->name('userrolemappings.finalizeAssignment')
-    ->middleware('auth');
+    ->middleware(['auth','role.assigned']);
 });
 
 Route::resource('permissions', PermissionController::class)->middleware(['auth', 'role:admin']);
@@ -172,9 +170,19 @@ Route::group(['prefix'=>'permissions'], function(){
 });
 
 Route::group(['prefix'=>'menu'], function(){
-    Route::get('/assignMenuRoles', [MenuController::class, 'assignMenuRoles'])->name('menu.assignMenuRoles')->middleware('auth');
-    Route::post('/assignMenuRoles', [MenuController::class, 'assignMenuRoles'])->name('menu.createMenuRoleMap')->middleware('auth');
+    Route::get('/assignMenuRoles', [MenuController::class, 'assignMenuRoles'])->name('menu.assignMenuRoles')->middleware(['auth','role.assigned']);
+    Route::post('/assignMenuRoles', [MenuController::class, 'assignMenuRoles'])->name('menu.createMenuRoleMap')->middleware(['auth','role.assigned']);
 });
+
+Route::get('/no-role', ['as' => 'no-role', function () {
+    // simple response; replace with view if you set up Blade
+    /*
+    return response()->make(
+        '<h1>Unauthorized</h1><p>Your account has no role assigned. Contact admin to assign you a role.</p>',
+        403
+    );*/
+    return view('no_role');
+}]);
 
 
 
