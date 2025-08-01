@@ -71,13 +71,14 @@
                                         return $tasksMap[$permission_name] ?? '';
                                     }, $role->permissions());
                                 @endphp
-
-                                <div class="flex gap-1">
-                                    @foreach ($assignedPermissions as $permission)
-                                        <span class="m-1 py-1 px-2 bg-blue-400 text-white rounded-2xl text-xs">
-                                            {{ $permission }}
-                                        </span>
-                                    @endforeach
+                                <div>
+                                    <div class="flex gap-1">
+                                        @foreach ($assignedPermissions as $permission)
+                                            <span class="m-1 py-1 px-2 bg-blue-400 text-white rounded-2xl text-xs">
+                                                {{ $permission }}
+                                            </span>
+                                        @endforeach
+                                    </div>
                                 </div>
 
                             </td>
