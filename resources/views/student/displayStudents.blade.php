@@ -30,13 +30,19 @@
                         <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden"
                             id="menu-items">
                             <div class="py-1">
-                                <a href="#importStudentLayout" id="importStudentsBtn" data-toggle='alert'
-                                    data-target="importStudentsForm"
-                                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 menu-item">Import
-                                    students' record from excel</a>
-                                <a href="{{ route('addNewStudent') }}"
-                                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 menu-item">Add New
-                                    Student Manually</a>
+
+                                @if (Auth::user()->hasPermission('excel_file_upload'))
+                                    <a href="#importStudentLayout" id="importStudentsBtn" data-toggle='alert'
+                                        data-target="importStudentsForm"
+                                        class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 menu-item">Import
+                                        students' record from excel</a>
+                                @endif
+
+                                @if (Auth::user()->hasPermission('student_data_entry'))
+                                    <a href="{{ route('addNewStudent') }}"
+                                        class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-200 menu-item">Add New
+                                        Student Manually</a>
+                                @endif
 
                             </div>
                         </div>
