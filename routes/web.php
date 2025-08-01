@@ -55,7 +55,7 @@ Route::group(['prefix' => 'users'], function(){
     // Create University Users(staffs)
     Route::get('/createUniversityUser', [UserController::class, 'createUniversityUser'])->name('users.create-university-user')->middleware(['auth','role.assigned', 'role:University Admin']);
 
-    Route::post('/createUser', [UserController::class, 'createUser'])->name('users.create')->middleware(['auth','role.assigned', 'role:University Admin, Super Admin']);
+    Route::post('/createUser', [UserController::class, 'createUser'])->name('users.create')->middleware(['auth','role.assigned', 'role:University Admin,Super Admin']);
 
     // Displaying users
     Route::get('/university-admins', [UserController::class, 'getUniversityAdmins'])->name('users.university-admins')->middleware(['auth','role.assigned']);
