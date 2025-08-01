@@ -170,8 +170,8 @@ Route::group(['prefix'=>'permissions'], function(){
 });
 
 Route::group(['prefix'=>'menu'], function(){
-    Route::get('/assignMenuRoles', [MenuController::class, 'assignMenuRoles'])->name('menu.assignMenuRoles')->middleware(['auth','role.assigned']);
-    Route::post('/assignMenuRoles', [MenuController::class, 'assignMenuRoles'])->name('menu.createMenuRoleMap')->middleware(['auth','role.assigned']);
+    Route::get('/assignMenuRoles', [MenuController::class, 'assignMenuRoles'])->name('menu.assignMenuRoles')->middleware(['auth','role.assigned','role:University Admin,Super Admin']);
+    Route::post('/assignMenuRoles', [MenuController::class, 'assignMenuRoles'])->name('menu.createMenuRoleMap')->middleware(['auth','role.assigned','role:University Admin,Super Admin']);
 });
 
 Route::get('/no-role', ['as' => 'no-role', function () {
