@@ -8,6 +8,12 @@ return [
         'view_file' => null
     ], 
     [
+        'task_name' => 'view_students',
+        'label' => 'View Students',
+        'description' => 'Permission for viewing student record.',
+        'view_file' => null
+    ],
+    [
         'task_name' => 'student_data_entry',
         'label' => 'Student Data Entry',
         'description' => 'Data entry task for student',
@@ -44,11 +50,29 @@ return [
         'view_file' => null,
     ],  
     [
+        'task_name' => 'view_role',
+        'label' => 'Role',
+        'description' => 'An administrative task for viewing user role',
+        'view_file' => null
+    ],
+    [
         'task_name' => 'create_role',
         'label' => 'Create Role',
         'description' => 'An administrative task for creating user role',
         'view_file' => null
     ],
+    [
+        'task_name' => 'view_user',
+        'label' => 'View University Staff User',
+        'description' => 'An administrative task for viewing user',
+        'view_file' => null
+    ],  
+    [
+        'task_name' => 'view_university_admin_user',
+        'label' => 'View University Admin User',
+        'description' => 'An administrative task for viewing admin users',
+        'view_file' => null
+    ],  
     [
         'task_name' => 'create_user',
         'label' => 'Create User',
@@ -83,6 +107,24 @@ return [
         'task_name' => 'add_course',
         'label' => 'Add Course',
         'description' => 'An administrative task for adding course',
+        'view_file' => null
+    ],  
+    [
+        'task_name' => 'view_sport',
+        'label' => 'Sports',
+        'description' => 'An administrative task for viewing sports',
+        'view_file' => null
+    ],  
+    [
+        'task_name' => 'add_sport',
+        'label' => 'Add Sports',
+        'description' => 'An administrative task for viewing sports',
+        'view_file' => null
+    ],  
+    [
+        'task_name' => 'show_home_page',
+        'label' => 'Show Home Page',
+        'description' => 'A task for showing home page',
         'view_file' => null
     ],  
 ];

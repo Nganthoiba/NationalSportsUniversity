@@ -144,6 +144,9 @@ class UserController extends Controller
             'users' => $users,
             'title' => 'University Admin Users',
             'userType' => 'admins',
+            'roles' => Role::whereNotIn('role_name', [
+                'Super Admin',
+            ])->where('enabled', true)->orderBy('role_name')->get()
         ]);
     }
 
@@ -151,10 +154,10 @@ class UserController extends Controller
     public function getUniversityUsers(Request $request){
         $users = User::getUniversityUsers(Auth::user()->university_id);
         $university = University::find(Auth::user()->university_id);
-
+        $title = empty($university)?'Users for all universities':'Users for '.$university->name;
         return view('users.index',[
             'users' => $users,
-            'title' => 'Users for '.$university->name,
+            'title' => $title,
             'userType' => 'staffs',
             'roles' => Role::whereNotIn('role_name', [
                 'Super Admin',

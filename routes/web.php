@@ -53,13 +53,13 @@ Route::group(['prefix' => 'users'], function(){
     // Create University Admin Users
     Route::get('/createUniversityAdminUser', [UserController::class, 'createUniversityAdminUser'])->name('users.create-university-admin')->middleware(['auth','role.assigned', 'role:Super Admin']);
     // Create University Users(staffs)
-    Route::get('/createUniversityUser', [UserController::class, 'createUniversityUser'])->name('users.create-university-user')->middleware(['auth','role.assigned', 'role:University Admin']);
+    Route::get('/createUniversityUser', [UserController::class, 'createUniversityUser'])->name('users.create-university-user')->middleware(['auth','role.assigned']);
 
     Route::post('/createUser', [UserController::class, 'createUser'])->name('users.create')->middleware(['auth','role.assigned', 'role:University Admin,Super Admin']);
 
     // Displaying users
     Route::get('/university-admins', [UserController::class, 'getUniversityAdmins'])->name('users.university-admins')->middleware(['auth','role.assigned']);
-    Route::get('/university-users', [UserController::class, 'getUniversityUsers'])->name('users.university-users')->middleware(['auth','role.assigned','role:University Admin']);
+    Route::get('/university-users', [UserController::class, 'getUniversityUsers'])->name('users.university-users')->middleware(['auth','role.assigned']);
 
     Route::post('/enable-or-disable',[UserController::class, 'enableOrDisable'])->name('users.enableOrDisable')->middleware(['auth','role.assigned','role:University Admin, Super Admin']);
 });
@@ -144,7 +144,7 @@ Route::group(['prefix'=>'departments'], function(){
     Route::post('/enable/{id}', [DepartmentController::class, 'enable'])->name('departments.enable')->middleware(['auth','role.assigned']);
 });
 
-Route::resource('roles', RoleController::class);
+Route::resource('roles', RoleController::class)->middleware('auth');
 Route::group(['prefix'=>'roles'], function(){
     Route::post('/enable/{role_id}', [RoleController::class, 'enable'])->name('roles.enable')->middleware(['auth','role.assigned']);
 });

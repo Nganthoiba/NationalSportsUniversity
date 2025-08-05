@@ -30,8 +30,9 @@ class Menu{
 
         $currentRole = session('currentRole');
         if($currentRole){
+            /*
             if($currentRole->role_name == "Super Admin"){
-                return array_values(array_filter($availableMenus, function($menu, $menu_name){
+                $permittedMenus = array_values(array_filter($availableMenus, function($menu, $menu_name){
                     return (in_array('Super Admin', $menu['allowed_roles']??[]));
                 }, ARRAY_FILTER_USE_BOTH));
             }
@@ -40,15 +41,25 @@ class Menu{
                 $permittedMenus = array_values(array_filter($availableMenus, function($menu, $menu_name){                    
                     return (in_array('University Admin', $menu['allowed_roles']??[]));
                 }, ARRAY_FILTER_USE_BOTH));
-            }
+            }*/
             
         }
+
+        /*
         $menu_names = $role->allowed_menus??[];
         foreach($menu_names as $menu_name){
             if(isset($availableMenus[$menu_name])){
                 $permittedMenus[] = $availableMenus[$menu_name];
             }
         }
+        */
+
+        foreach($availableMenus as $menu_name => $menu){
+            if($role->hasPermission($menu['permission'])){
+                $permittedMenus[] = $menu;
+            }
+        }
+
         usort($permittedMenus, function ($a, $b) {
             return ($a['displayOrder']??0) <=> ($b['displayOrder']??0);
         });

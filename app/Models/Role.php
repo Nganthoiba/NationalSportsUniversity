@@ -37,4 +37,15 @@ class Role extends Model
             $model->updated_by = auth()->id();
         });
     }
+
+    public function hasPermission($permission){
+        if (is_string($permission) && in_array($permission, $this->permission_names)) {
+            return true;
+        }
+
+        if(is_array($permission) && !empty(array_intersect($permission, $this->permission_names))){
+            return true;
+        }
+        return false;
+    }
 }

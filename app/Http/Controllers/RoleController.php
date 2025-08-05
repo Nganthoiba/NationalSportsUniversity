@@ -13,7 +13,8 @@ class RoleController extends Controller
         $currentRole = session('currentRole');
         switch($currentRole->role_name){
             case 'Super Admin':
-                $roles = Role::whereNotIn('role_name', ['Super Admin'])->get();
+                //$roles = Role::whereNotIn('role_name', ['Super Admin'])->get();
+                $roles = Role::get();
                 break;
             case 'University Admin':
                 $roles = Role::whereNotIn('role_name', ['Super Admin', 'University Admin'])->get();

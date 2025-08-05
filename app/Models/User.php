@@ -171,16 +171,21 @@ class User extends Authenticatable implements
     }
 
     //get university admin users
-    public function scopeGetUniversityUsers($query, $university_id){
+    public function scopeGetUniversityUsers($query, $university_id = null){
         //Get State Admin Role Id
         $university_admin_role_ids = Role::whereIn('role_name', ['University Admin','Super Admin'])
         ->get()->map(function($role){
             return $role->_id;
         });
         //Get all the user Ids from the user_role_mappings collection whose role id is above retrieved.
-        $user_ids = UserRoleMapping::whereIn('role_id', $university_admin_role_ids)->pluck('user_id');        
-        $users = $query->whereNotIn('_id', $user_ids)->where('university_id', $university_id)->get()->map(function($user){
+        $user_ids = UserRoleMapping::whereIn('role_id', $university_admin_role_ids)->pluck('user_id'); 
+        $query->whereNotIn('_id', $user_ids);
+        if(!is_null($university_id)){
+            $query->where('university_id', $university_id);
+        }        
+        $users = $query->get()->map(function($user){
             //$creator = User::find($user->created_by);
+            $user->university_name = University::find($user->university_id)->name;
             $user->creator = User::find($user->created_by);
             return $user;
         });

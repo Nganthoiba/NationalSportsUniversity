@@ -8,6 +8,7 @@ return [
         'allowed_roles' => [],//arbitrary, anyone is allowed
         'sub_menus' => [],
         'displayOrder' => 1,
+        'permission' => 'show_home_page',
     ],
     [
         'menu_label' => 'Students',
@@ -16,6 +17,7 @@ return [
         'allowed_roles' => [],
         'sub_menus' => [],
         'displayOrder' => 2,
+        'permission' => 'view_students',
     ],
     [
         'menu_name' => 'DisplayDataChange',
@@ -24,6 +26,7 @@ return [
         'allowed_roles' => [], 
         'sub_menus' => [],
         'displayOrder' => 3,
+        'permission' => 'view_data_change',
     ],    
     [
         'menu_name' => 'ShowUniversityAdmin',
@@ -32,23 +35,34 @@ return [
         'allowed_roles' => ['Super Admin'],
         'sub_menus' => [],
         'displayOrder' => 5,
+        'permission' => 'view_university_admin',
     ],
     [
         'menu_name' => 'ShowUsers',
-        'menu_label' => 'Users',
+        'menu_label' => 'University Users',
         'route' => ('users.university-users'),
         'allowed_roles' => [],
         'sub_menus' => [],
         'displayOrder' => 6,
-    ],   
-    
+        'permission' => 'view_user',
+    ],    
+    [
+        'menu_name' => 'ShowUniversityAdminUsers',
+        'menu_label' => 'University Admin Users',
+        'route' => 'users.university-admins',
+        'allowed_roles' => [],
+        'sub_menus' => [],
+        'displayOrder' => 6,
+        'permission' => 'view_university_admin_user',
+    ],    
     [
         'menu_name' => 'Role',
         'menu_label' => 'Role',
         'route' => 'roles.index',
-        'allowed_roles' => ['Super Admin','University Admin'],
+        'allowed_roles' => ['Super Admin'],
         'sub_menus' => [],
         'displayOrder' => 7,
+        'permission' => 'view_role',
     ],
     [
         'menu_name' => 'Courses',
@@ -57,6 +71,7 @@ return [
         'allowed_roles' => [],
         'sub_menus' => [],
         'displayOrder' => 8,
+        'permission' => 'view_course',
     ],
     [
         'menu_name' => 'Departments',
@@ -65,20 +80,22 @@ return [
         'allowed_roles' => [],
         'sub_menus' => [],
         'displayOrder' => 9,
+        'permission' => 'view_department',
     ],
-    [
+    /* [
         'menu_name' => 'MenuAssignment',
         'menu_label' => 'Menu Assignment',
         'route' => 'menu.assignMenuRoles',
         'allowed_roles' => ['University Admin','Super Admin'],
         'sub_menus' => [],
         'displayOrder' => 10,
-    ],
+    ], */
     [
         'menu_name' => 'Sports',
         'menu_label' => 'Sports',
         'route' => 'sports.index',
         'sub_menus' => [], 
         'displayOrder' => 11,
+        'permission' => 'view_sport',
     ],
 ];
