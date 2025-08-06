@@ -123,7 +123,8 @@ class UserController extends Controller
         }
         return view('users.createUniversityAdmin',[
             'universities' => University::all(),
-            'role' => Role::where('role_name', 'University Admin')->first()
+            //'role' => Role::where('role_name', 'University Admin')->first(),
+            'roles' => Role::whereNotIn('role_name', ['Super Admin'])->orderBy('role_name')->get(),
         ]);
     }
 
@@ -139,10 +140,11 @@ class UserController extends Controller
 
     //Get University Admin users
     public function getUniversityAdmins(Request $request){
-        $users = User::getUniversityAdminUsers();
+        //$users = User::getUniversityAdminUsers();
+        $users = User::getUniversityUsers(Auth::user()->university_id);
         return view('users.index',[
             'users' => $users,
-            'title' => 'University Admin Users',
+            'title' => 'University Users',
             'userType' => 'admins',
             'roles' => Role::whereNotIn('role_name', [
                 'Super Admin',

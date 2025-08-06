@@ -21,9 +21,9 @@
                     <th class="px-2">#</th>
                     <th class="px-2">Admin Name</th>
                     <th class="px-2">University</th>
-                    @if ($userType !== 'admins')
-                        <th class="px-2">Assigned Roles</th>
-                    @endif
+
+                    <th class="px-2">Assigned Roles</th>
+
                     <th class="px-2">Created By</th>
                     <th class="px-2">Created At</th>
                     <th class="px-2"></th>
@@ -38,16 +38,15 @@
                             <div class="email text-gray-500">{{ $user->email }}</div>
                         </td>
                         <td>{{ $user->university_name }}</td>
-                        @if ($userType !== 'admins')
-                            <td>
 
-                                <div>
-                                    @foreach ($user->getAssignedRoles() as $role)
-                                        <span class="badge badge-default">{{ $role }}</span>
-                                    @endforeach
-                                </div>
-                            </td>
-                        @endif
+                        <td>
+
+                            <div>
+                                @foreach ($user->getAssignedRoles() as $role)
+                                    <span class="badge badge-default">{{ $role }}</span>
+                                @endforeach
+                            </div>
+                        </td>
                         <td>
                             <div>{{ $user->creator->full_name }}</div>
                             <div class="text-gray-500">{{ $user->creator->email }}</div>
@@ -65,13 +64,14 @@
                                 @endif
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ $user->id }}">
-
-                                @if ($user->enabled)
-                                    <input type="hidden" name="enabled" value="false">
-                                    <button class="btn btn-warning">Disable User</button>
-                                @else
-                                    <input type="hidden" name="enabled" value="true">
-                                    <button class="btn btn-success">Enable User</button>
+                                @if (Auth::user()->hasPermission('enable_or_disable_user'))
+                                    @if ($user->enabled)
+                                        <input type="hidden" name="enabled" value="false">
+                                        <button class="btn btn-warning">Disable User</button>
+                                    @else
+                                        <input type="hidden" name="enabled" value="true">
+                                        <button class="btn btn-success">Enable User</button>
+                                    @endif
                                 @endif
                             </form>
                         </td>

@@ -43,7 +43,11 @@ class Role extends Model
             return true;
         }
 
-        if(is_array($permission) && !empty(array_intersect($permission, $this->permission_names))){
+        if(is_array($permission)){
+            $intersect = array_intersect($permission, $this->permission_names);
+            if(empty($intersect) || sizeof($permission) != sizeof($intersect)){
+                return false;
+            }
             return true;
         }
         return false;

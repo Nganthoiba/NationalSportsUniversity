@@ -27,10 +27,12 @@
                         </svg>
                     </div>
                 </div>
-                <a href="{{ route('roles.create') }}"
-                    class="inline-flex items-center gap-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500">
-                    <span class="text-lg font-medium">+</span> Add Role
-                </a>
+                @if (Auth::user()->hasPermission('add_role'))
+                    <a href="{{ route('roles.create') }}"
+                        class="inline-flex items-center gap-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500">
+                        <span class="text-lg font-medium">+</span> Add Role
+                    </a>
+                @endif
             </div>
         </div>
 

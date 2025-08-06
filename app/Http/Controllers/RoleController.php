@@ -9,23 +9,35 @@ use Illuminate\Support\Facades\Auth;
 class RoleController extends Controller
 {
     public function index()
-    {
+    {        
+        if(!Auth::user()->hasPermission('view_role')){
+            return view('layout.errorMessage',[
+                'title' => 'Unauthorized',
+                'message' => 'Sorry, you do not have permission to view roles.'
+            ]);
+        }
+
         $currentRole = session('currentRole');
         switch($currentRole->role_name){
             case 'Super Admin':
                 //$roles = Role::whereNotIn('role_name', ['Super Admin'])->get();
                 $roles = Role::get();
                 break;
-            case 'University Admin':
-                $roles = Role::whereNotIn('role_name', ['Super Admin', 'University Admin'])->get();
-                break;
+            default:
+                $roles = Role::whereNotIn('role_name', ['Super Admin'])->whereNotLike('role_name','University Admin%')->get();
         }
         //$roles = Role::all();
         return view('roles.index', compact('roles'));
     }
 
     public function create()
-    {
+    {        
+        if(!Auth::user()->hasPermission('add_role')){
+            return view('layout.errorMessage',[
+                'title' => 'Unauthorized',
+                'message' => 'Sorry, you do not have permission to add roles.'
+            ]);
+        }
         return view('roles.create');
     }
 
@@ -50,6 +62,12 @@ class RoleController extends Controller
 
     public function edit(string $id)
     {
+        if(!Auth::user()->hasPermission('edit_role')){
+            return view('layout.errorMessage',[
+                'title' => 'Unauthorized',
+                'message' => 'Sorry, you do not have permission to edit roles.'
+            ]);
+        }
         $role = Role::findOrFail($id);
         return view('roles.edit', compact('role'));
     }

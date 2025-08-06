@@ -133,33 +133,17 @@ class User extends Authenticatable implements
     }
 
     public function hasPermission($permission)
-    {
-        //get mapped role_ids
-        $role_ids = UserRoleMapping::where('user_id', $this->_id)->pluck("role_id");
-        // Ensure the user has a role assigned
-        if (empty($role_ids)) {
-            return false;
-        }
-
-        //Getting only the active roles
-        $roles = Role::whereIn('_id', $role_ids)->where('enabled', true)->get();
-
-        foreach ($roles as $role) {
-            if (is_string($permission) && in_array($permission, $role->permission_names)) {
-                return true;
-            }
-
-            if(is_array($permission) && !empty(array_intersect($permission, $role->permission_names))){
-                return true;
-            }
-        }
-        return false;
+    {        
+        //Trying to get role_id from session
+        $currentRole = session('currentRole');
+        $role = Role::find($currentRole->id);
+        return $role->hasPermission($permission);
     }
 
     //get university admin users
     public function scopeGetUniversityAdminUsers($query){
         //Get State Admin Role Id
-        $university_admin_role_id = Role::where('role_name', 'University Admin')->first();
+        $university_admin_role_id = Role::whereLike('role_name', 'University Admin%')->first();
         //Get all the user Ids from the user_role_mappings collection whose role id is above retrieved.
         $user_ids = UserRoleMapping::where('role_id', $university_admin_role_id->id)->pluck('user_id');
         $users = $query->whereIn('_id', $user_ids)->get()->map(function($user){
@@ -173,7 +157,7 @@ class User extends Authenticatable implements
     //get university admin users
     public function scopeGetUniversityUsers($query, $university_id = null){
         //Get State Admin Role Id
-        $university_admin_role_ids = Role::whereIn('role_name', ['University Admin','Super Admin'])
+        $university_admin_role_ids = Role::whereIn('role_name', ['Super Admin'])
         ->get()->map(function($role){
             return $role->_id;
         });

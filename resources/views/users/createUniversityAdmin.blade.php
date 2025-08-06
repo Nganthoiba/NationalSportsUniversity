@@ -8,7 +8,7 @@
             <h5 class="text-gray-600 text-lg font-bold border-b border-gray-200 py-1 mb-3">Create University Admin User</h5>
 
             <form action="{{ route('users.create') }}" method="POST">
-                <input type="hidden" value="{{ $role->id }}" name="role_id" />
+                {{-- <input type="hidden" value="{{ $role->id }}" name="role_id" /> --}}
                 @csrf
                 <div class="mb-4">
                     <label for="full_name" class="py-2">User Name (in full):</label>
@@ -61,6 +61,22 @@
                 </div>
 
                 <div class="mb-4">
+                    <label for="contact_no" class="py-2">Select User Role:</label>
+                    <div>
+
+                        <select name="role_id" id="university_id" class="form-select" required>
+                            <option value="">Select Role</option>
+                            @foreach ($roles as $role)
+                                @php
+                                    $selected = old('role_id', '') == $role->id ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $role->id }}" {{ $selected }}>{{ $role->role_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
                     <label for="contact_no" class="py-2">Select University:</label>
                     <div>
                         {{-- json_encode($universities) --}}
@@ -70,7 +86,8 @@
                                 @php
                                     $selected = old('university_id', '') == $university->id ? 'selected' : '';
                                 @endphp
-                                <option value="{{ $university->id }}" {{ $selected }}>{{ $university->name }}</option>
+                                <option value="{{ $university->id }}" {{ $selected }}>{{ $university->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

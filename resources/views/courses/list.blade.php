@@ -4,11 +4,13 @@
     <div class="container mx-auto px-4 py-6">
         <div class="mb-2 flex justify-between">
             <h1 class="text-3xl font-semibold mb-6">Courses List</h1>
-            <div>
-                <a href="{{ route('courses.add') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                    + Create New Course
-                </a>
-            </div>
+            @if (Auth::user()->hasPermission('add_course'))
+                <div>
+                    <a href="{{ route('courses.add') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        + Create New Course
+                    </a>
+                </div>
+            @endif
         </div>
         <table class="min-w-full bg-white shadow-md rounded-lg overflow-auto">
             <thead>

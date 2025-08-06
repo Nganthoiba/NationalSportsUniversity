@@ -21,6 +21,7 @@ class RoleSeeder extends Seeder
                 'enabled' => true,
                 'changeable' => false,
             ],
+            /*
             [
                 'role_name' => 'University Admin',
                 'role_description' => 'The admin of a university/institution.',
@@ -34,7 +35,7 @@ class RoleSeeder extends Seeder
                 'permission_names' => [],
                 'enabled' => true,
                 'changeable' => false,
-            ],
+            ],*/
         ];
 
         foreach($roles as $role){

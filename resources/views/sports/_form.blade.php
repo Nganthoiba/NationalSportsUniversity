@@ -7,7 +7,7 @@
     @endif
 
     <div>
-        <label for="sport_name" class="block text-sm font-medium text-gray-700">Department Name (English) <span
+        <label for="sport_name" class="block text-sm font-medium text-gray-700">Sport Name (English) <span
                 class="text-red-600">*</span></label>
         <input type="text" name="sport_name" id="sport_name" value="{{ old('sport_name', $sport->sport_name ?? '') }}"
             required
@@ -18,7 +18,7 @@
     </div>
 
     <div class="mt-2">
-        <label for="sport_name_in_hindi" class="block text-sm font-medium text-gray-700">Department Name (Hindi)</label>
+        <label for="sport_name_in_hindi" class="block text-sm font-medium text-gray-700">Sport Name (Hindi)</label>
         <input type="text" name="sport_name_in_hindi" id="sport_name_in_hindi"
             value="{{ old('sport_name_in_hindi', $sport->sport_name_in_hindi ?? '') }}"
             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:ring-blue-500 focus:border-blue-500">

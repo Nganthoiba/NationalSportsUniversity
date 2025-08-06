@@ -217,7 +217,7 @@
                     List</a>
 
                 @if (!$isSigned)
-                    @if (Auth::user()->hasPermission(['student_data_approval']))
+                    @if (Auth::user()->hasPermission('esign_student_data_approval'))
                         <button onClick = "approveStudent('{{ $student->_id }}');"
                             class="text-xs px-4 py-2 bg-green-500 text-white rounded-md mx-4 hover:cursor-pointer hover:bg-green-700">
                             <i class="fa fa-person-circle-check"></i> Approve & e-sign

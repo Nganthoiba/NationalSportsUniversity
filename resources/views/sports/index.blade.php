@@ -8,11 +8,14 @@
             </div>
         @endif
 
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold">Sports</h1>
-            <a href="{{ route('sports.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">+
-                Add Sport</a>
-        </div>
+
+        @if (Auth::user()->hasPermission('add_sport'))
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold">Sports</h1>
+                <a href="{{ route('sports.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">+
+                    Add Sport</a>
+            </div>
+        @endif
 
         <table class="min-w-full bg-white shadow-md rounded-lg">
             <thead>

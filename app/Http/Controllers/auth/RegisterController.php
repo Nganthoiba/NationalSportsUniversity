@@ -15,13 +15,6 @@ class RegisterController extends Controller
     public function register(RegistrationRequest $request) {
         $data = $request->validated();
 
-
-        /* $user = User::create([
-            'full_name' => $data['full_name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-         ]); */
-
         $user = User::where('email', $data['email'])->first();
         if(empty($user)){
             return redirect()->back()->with(['error' => true, 'message' => 'You email is still not registered yet by your concerned administrator.']);
