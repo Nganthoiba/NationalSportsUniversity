@@ -140,6 +140,15 @@ class UserController extends Controller
 
     //Get University Admin users
     public function getUniversityAdmins(Request $request){
+
+        if(!Auth::user()->hasPermission('view_university_admin_user')){
+            return view('layout.errorMessage',[
+                'title' => 'Not permitted',
+                'message' => 'Sorry, you do not have permission to view university admin users.'
+            ]);
+        }
+
+        //Get all the university admin users
         $users = User::getUniversityAdminUsers();
         //$users = User::getUniversityUsers(Auth::user()->university_id);
         return view('users.index',[
@@ -154,6 +163,14 @@ class UserController extends Controller
 
     //Get University other non-admin users
     public function getUniversityUsers(Request $request){
+        if(!Auth::user()->hasPermission('view_user')){
+            return view('layout.errorMessage',[
+                'title' => 'Not permitted',
+                'message' => 'Sorry, you do not have permission to view university users.'
+            ]);
+        }
+
+        //Get all the university staff users
         $users = User::getUniversityUsers(Auth::user()->university_id);
         $university = University::find(Auth::user()->university_id);
         $title = empty($university)?'Users for all universities':'Users for '.$university->name;

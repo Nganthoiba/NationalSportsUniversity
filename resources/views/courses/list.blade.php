@@ -19,7 +19,9 @@
                     <th class="py-3 px-6 text-left">Course Name</th>
                     <th class="py-3 px-6 text-left">Short Form</th>
                     <th class="py-3 px-6 text-left">Department</th>
-                    <th class="py-3 px-6 text-center">Enabled</th>
+                    @if (Auth::user()->hasPermission('enable_or_disable_course'))
+                        <th class="py-3 px-6 text-center">Enabled</th>
+                    @endif
                 </tr>
             </thead>
             <tbody class="text-gray-600 text-sm font-light">
@@ -35,24 +37,27 @@
                             <div>{{ $course->department->dept_name ?? 'N/A' }}</div>
                             <div>{{ $course->department->dept_name_in_hindi ?? '' }}</div>
                         </td>
-                        <td class="py-3 px-6">
-                            {{-- <a href="{{ route('courses.edit', $course->id) }}" class="text-blue-500 hover:text-blue-700">
+                        @if (Auth::user()->hasPermission('enable_or_disable_course'))
+                            <td class="py-3 px-6">
+                                {{-- <a href="{{ route('courses.edit', $course->id) }}" class="text-blue-500 hover:text-blue-700">
                                 <i class="fas fa-edit"></i>
 
                             </a>| --}}
-                            @php
-                                $checked = $course->enabled ? 'checked' : '';
-                            @endphp
-                            <div class="flex w-full text-right justify-between">
-                                <input type="checkbox" name="enableOrDisableCourse"
-                                    class="cursor-pointer enableOrDisableCourse" value="{{ $course->id }}"
-                                    id="enableOrDisableCourse{{ $course->id }}" {{ $checked }} />
-                                <div id="spinner_{{ $course->id }}"
-                                    class="hidden w-5 h-5 border-4 border-blue-500 border-t-transparent rounded-full animate-spin">
-                                </div>
-                            </div>
 
-                            {{-- |
+                                @php
+                                    $checked = $course->enabled ? 'checked' : '';
+                                @endphp
+                                <div class="flex w-full text-right justify-between">
+                                    <input type="checkbox" name="enableOrDisableCourse"
+                                        class="cursor-pointer enableOrDisableCourse" value="{{ $course->id }}"
+                                        id="enableOrDisableCourse{{ $course->id }}" {{ $checked }} />
+                                    <div id="spinner_{{ $course->id }}"
+                                        class="hidden w-5 h-5 border-4 border-blue-500 border-t-transparent rounded-full animate-spin">
+                                    </div>
+                                </div>
+
+
+                                {{-- |
                             <form action="{{ route('courses.delete', $course->id) }}" method="POST"
                                 style="display:inline;">
                                 @csrf
@@ -62,7 +67,8 @@
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form> --}}
-                        </td>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

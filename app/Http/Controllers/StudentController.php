@@ -32,8 +32,20 @@ use Illuminate\Support\Facades\DB;
 class StudentController extends Controller
 {
     public function addNewStudent(AddStudentRequest $request){
+        if(Auth::user()->hasPermission('student_data_entry') == false){
+                /* return redirect()->back()->with([
+                    'message' => 'You do not have permission to add new student record.',
+                    'status' => 'error',
+                    'error' => true,
+                ]); */
+            return view('layout.errorMessage',[
+                'title' => 'Not permitted',
+                'message' => 'Sorry, you do not have permission to add new student record.'
+            ]);
+        }
 
-        if($request->isMethod('POST')){
+        if($request->isMethod('POST')){           
+
             try{
                 $student = new Student();
                 $data = $request->validated(); // Use validated data from the request

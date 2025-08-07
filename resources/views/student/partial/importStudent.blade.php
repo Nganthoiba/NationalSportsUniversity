@@ -31,7 +31,7 @@
 
                         <div class="mt-2 flex justify-between items-bottom">
                             <label for="batch">Enter Batch</label>
-                            <button type="button" id="addBatchFieldBtn" class="btn btn-primary">+ Add more</button>
+                            <button type="button" id="addBatchFieldBtn" class="btn btn-primary">+ Add Batch</button>
                         </div>
                         <div class="mt-2">
                             <!-- batch fields should be displayed in grid format -->

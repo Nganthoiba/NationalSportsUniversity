@@ -75,7 +75,7 @@
                         <table class="min-w-full bg-white shadow rounded-lg">
                             <thead>
                                 <tr class="bg-blue-100 text-gray-700 uppercase text-xs tracking-wider">
-                                    <th class="text-left py-3 px-4">Role Name</th>
+                                    <th class="text-left py-3 px-4 w-1/4">Role Name</th>
                                     <th class="text-left py-3 px-4">Allowed Permissions</th>
                                     <th class="text-left py-3 px-4">Actions</th>
                                 </tr>
@@ -147,7 +147,7 @@
                         <table class="min-w-full bg-white shadow rounded-lg">
                             <thead>
                                 <tr class="bg-blue-100 text-gray-700 uppercase text-xs tracking-wider">
-                                    <th class="text-left py-3 px-4">Role Name</th>
+                                    <th class="text-left py-3 px-4 w-1/4">Role Names</th>
                                     <th class="text-left py-3 px-4">Allowed Permissions</th>
                                     <th class="text-left py-3 px-4">Actions</th>
                                 </tr>
