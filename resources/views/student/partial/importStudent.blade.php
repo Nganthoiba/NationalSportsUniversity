@@ -27,11 +27,24 @@
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Please upload a valid excel file to
                         import
                         students' record. And make sure that the excel file has proper heading fields.</p>
-                    <div class="my-2">
-                        <label for="batch">Enter Batch</label>
-                        <input type="text" name="batch" id="batch"
-                            class="border border-gray-300 p-2 rounded-lg relative w-full mt-2 cursor-pointer batch-field" />
+                    <div class="mt-2">
+
+                        <div class="mt-2 flex justify-between items-bottom">
+                            <label for="batch">Enter Batch</label>
+                            <button type="button" id="addBatchFieldBtn" class="btn btn-primary">+ Add more</button>
+                        </div>
+                        <div class="mt-2">
+                            <!-- batch fields should be displayed in grid format -->
+                            {{-- <div class="grid grid-cols-2 gap-2"> --}}
+                            <div id="batchFields" class="items-center grid grid-cols-3 gap-2">
+                                <input type="text" name="batch[]" id="batch" placeholder="Enter Batch"
+                                    class="border border-gray-300 p-2 rounded-lg relative batch-field" required />
+                            </div>
+
+                        </div>
+
                     </div>
+
                     <label for="studentExcelFile" class="text-sm font-medium text-gray-900 dark:text-gray-300">
                         Upload Excel File
                     </label>
@@ -330,6 +343,51 @@
             };
             IMask(element, maskOptions);
         }
+    });
+
+    //add batch fields when addBatchFieldBtn is clicked
+    document.getElementById('addBatchFieldBtn').addEventListener('click', function() {
+        const batchFieldsContainer = document.getElementById('batchFields');
+
+        //Create a sub container for the new batch field
+        const subBatchFieldContainer = document.createElement('div');
+        subBatchFieldContainer.className = 'flex items-center mr-2 mt-2 batch-field-container';
+
+        const newBatchField = document.createElement('input');
+        newBatchField.type = 'text';
+        newBatchField.name = 'batch[]';
+        newBatchField.className =
+            'batch-field';
+        newBatchField.placeholder = 'Enter Batch';
+        //required true
+        newBatchField.required = true;
+
+        // Append the new field to the container
+        subBatchFieldContainer.appendChild(newBatchField);
+
+
+        // button container
+        //const buttonContainer = document.createElement('div');
+        // create a remove button
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        //It should be a rounded button with a cross icon
+        removeButton.classList.add('remove-batch-btn');
+        removeButton.style.borderRadius = '50%';
+        removeButton.innerHTML = '&times;';
+        removeButton.addEventListener('click', function() {
+            subBatchFieldContainer.remove();
+        });
+        //buttonContainer.appendChild(removeButton);
+        subBatchFieldContainer.appendChild(removeButton);
+
+
+        batchFieldsContainer.appendChild(subBatchFieldContainer);
+
+        // Reapply input mask to the new field
+        IMask(newBatchField, {
+            mask: '0000-00'
+        });
     });
 </script>
 {{-- @endsection --}}

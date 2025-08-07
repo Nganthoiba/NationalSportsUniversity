@@ -140,8 +140,8 @@ class UserController extends Controller
 
     //Get University Admin users
     public function getUniversityAdmins(Request $request){
-        //$users = User::getUniversityAdminUsers();
-        $users = User::getUniversityUsers(Auth::user()->university_id);
+        $users = User::getUniversityAdminUsers();
+        //$users = User::getUniversityUsers(Auth::user()->university_id);
         return view('users.index',[
             'users' => $users,
             'title' => 'University Users',

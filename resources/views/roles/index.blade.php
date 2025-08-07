@@ -43,7 +43,7 @@
             $tasks = config('permissions');
             $tasksMap = [];
             foreach ($tasks as $item) {
-                $tasksMap[$item['task_name']] = $item['label'];
+                $tasksMap[$item['permission_name']] = $item['label'];
             }
         @endphp
 
@@ -114,16 +114,20 @@
                                             @endif
                                         </td>
                                         <td class="py-3 px-4 space-x-2 whitespace-nowrap">
-                                            <a href="{{ route('roles.edit', $role->_id) }}"
-                                                class="text-blue-600 hover:underline">Edit</a>
-                                            |
-                                            <form action="{{ route('roles.destroy', $role->_id) }}" method="POST"
-                                                class="inline"
-                                                onsubmit="return confirmDisable(this, '{{ addslashes($role->role_name) }}')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="text-red-600 hover:underline">Disable</button>
-                                            </form>
+                                            @if (Auth::user()->hasPermission('edit_role'))
+                                                <a href="{{ route('roles.edit', $role->_id) }}"
+                                                    class="text-blue-600 hover:underline">Edit</a>
+                                            @endif
+                                            @if (Auth::user()->hasPermission('enable_or_disable_role') && $role->role_name != 'Super Admin')
+                                                <form action="{{ route('roles.destroy', $role->_id) }}" method="POST"
+                                                    class="inline"
+                                                    onsubmit="return confirmDisable(this, '{{ addslashes($role->role_name) }}')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="text-red-600 hover:underline">Disable</button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -184,14 +188,16 @@
                                         <td class="py-3 px-4 space-x-2 whitespace-nowrap">
                                             <a href="{{ route('roles.edit', $role->_id) }}"
                                                 class="text-blue-600 hover:underline">Edit</a>
-                                            |
-                                            <form action="{{ route('roles.enable', $role->_id) }}" method="POST"
-                                                class="inline"
-                                                onsubmit="return confirmRestore(this, '{{ addslashes($role->role_name) }}')">
-                                                @csrf
-                                                <button type="submit"
-                                                    class="text-green-600 hover:underline">Enable</button>
-                                            </form>
+
+                                            @if (Auth::user()->hasPermission('enable_or_disable_role'))
+                                                <form action="{{ route('roles.enable', $role->_id) }}" method="POST"
+                                                    class="inline"
+                                                    onsubmit="return confirmRestore(this, '{{ addslashes($role->role_name) }}')">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="text-green-600 hover:underline">Enable</button>
+                                                </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

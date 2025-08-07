@@ -532,6 +532,46 @@ button .loader {
     font-size: 0.87rem;
 }
 
+.batch-field-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+input.batch-field {
+    flex: 1;
+    max-width: 100px;
+    padding: 3px 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.77rem;
+    height: 35px;
+}
+
+input.batch-field:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.remove-batch-btn {
+    padding: 1px 3px;
+    border-radius: 50%;
+    border: none;
+    background-color: #ec6e7b;
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+    margin-left: -10px;
+    margin-top: -22px;
+}
+
+.remove-batch-btn:hover {
+    background-color: #c82333;
+}
+
 .permission-item label {
     cursor: pointer;
 }

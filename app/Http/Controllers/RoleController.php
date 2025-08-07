@@ -21,10 +21,13 @@ class RoleController extends Controller
         switch($currentRole->role_name){
             case 'Super Admin':
                 //$roles = Role::whereNotIn('role_name', ['Super Admin'])->get();
-                $roles = Role::get();
+                $roles = Role::orderBy('role_name')->get();
                 break;
             default:
-                $roles = Role::whereNotIn('role_name', ['Super Admin'])->whereNotLike('role_name','University Admin%')->get();
+                //$roles = Role::get();
+                $roles = Role::whereNotIn('role_name', ['Super Admin'])
+                ->whereNotLike('role_name','University Admin%')
+                ->orderBy('role_name')->get();
         }
         //$roles = Role::all();
         return view('roles.index', compact('roles'));
@@ -62,23 +65,40 @@ class RoleController extends Controller
 
     public function edit(string $id)
     {
-        if(!Auth::user()->hasPermission('edit_role')){
+        //Trying to get role_id from session
+        $currentRole = session('currentRole');
+        $role = Role::find($currentRole->id);
+
+        if($role->role_name != 'Super Admin' && !$role->hasPermission('edit_role')){
             return view('layout.errorMessage',[
                 'title' => 'Unauthorized',
                 'message' => 'Sorry, you do not have permission to edit roles.'
             ]);
         }
+
         $role = Role::findOrFail($id);
         return view('roles.edit', compact('role'));
     }
 
     public function update(Request $request, string $id)
     {
+        //Trying to get role_id from session
+        $currentRole = session('currentRole');
+        $role = Role::find($currentRole->id);
+
+        if($role->role_name != 'Super Admin' && !$role->hasPermission('edit_role')){
+            return view('layout.errorMessage',[
+                'title' => 'Unauthorized',
+                'message' => 'Sorry, you do not have permission to edit roles.'
+            ]);
+        }
+
         $request->validate([
             'role_name' => 'required|string|max:255',
             'role_description' => 'nullable|string|max:255',
             'permission_names' => 'nullable|array',
         ]);
+
 
         $role = Role::findOrFail($id);
         $role->permission_names = $request->permission_names??[];
@@ -93,6 +113,15 @@ class RoleController extends Controller
 
     public function destroy(string $id)
     {
+        //Trying to get role_id from session
+        $currentRole = session('currentRole');
+        $role = Role::find($currentRole->id);
+
+        if($role->role_name != 'Super Admin' && !$role->hasPermission('enable_or_disable_role')){            
+            return redirect()->route('roles.index')->with(['error'=>true, 
+            'message'=>'Sorry, you do not have permission to enable or disable roles.']);
+        }
+
         //Role::findOrFail($id)->delete();
         $role = Role::findOrFail($id);
         $role->enabled = false;
@@ -103,6 +132,15 @@ class RoleController extends Controller
 
     public function enable(string $id)
     {
+        //Trying to get role_id from session
+        $currentRole = session('currentRole');
+        $role = Role::find($currentRole->id);
+
+        if($role->role_name != 'Super Admin' && !$role->hasPermission('enable_or_disable_role')){            
+            return redirect()->route('roles.index')->with(['error'=>true, 
+            'message'=>'Sorry, you do not have permission to enable or disable roles.']);
+        }
+
         $role = Role::findOrFail($id);
         $role->enabled = true;
         $role->updated_by = Auth::user()->_id;

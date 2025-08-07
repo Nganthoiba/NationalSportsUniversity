@@ -33,25 +33,50 @@
 
     <div class="mt-2">
         <label for="#" class="block text-sm font-medium text-gray-700">Assign permissions</label>
-        <div class="mt-2 permission-grid">
+        <div class="mt-2 ">{{-- permission-grid --}}
             @php
-                $tasks = config('permissions');
+                $available_permissions = collect(config('permissions'))->sortBy('label')->values()->all();
+
             @endphp
-            @foreach ($tasks as $task)
-                @php
-                    $checked = isset($role)
-                        ? (in_array($task['task_name'], $role->permissions())
-                            ? 'checked'
-                            : '')
-                        : '';
-                @endphp
-                <div class="permission-item">
-                    <input type="checkbox" name="permission_names[]" id="{{ $task['task_name'] }}"
-                        value="{{ $task['task_name'] }}" {{ $checked }}>
-                    <label for="{{ $task['task_name'] }}" class="cursor-pointer"
-                        title="{{ $task['description'] }}">{{ $task['label'] }}</label>
-                </div>
-            @endforeach
+
+            <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="w-12 px-4 py-3 text-left"></th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Permission Name</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">About</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($available_permissions as $task)
+                        @php
+                            $checked = isset($role)
+                                ? (in_array($task['permission_name'], $role->permissions())
+                                    ? 'checked'
+                                    : '')
+                                : '';
+                        @endphp
+                        <tr class="hover:bg-blue-50 transition">
+                            <td class="px-4 py-2">
+                                <input type="checkbox" name="permission_names[]" id="{{ $task['permission_name'] }}"
+                                    value="{{ $task['permission_name'] }}" {{ $checked }}
+                                    class="form-checkbox text-blue-600 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            </td>
+                            <td class="px-4 py-2">
+                                <label for="{{ $task['permission_name'] }}"
+                                    class="cursor-pointer font-semibold text-sm text-gray-800"
+                                    title="{{ $task['description'] }}">
+                                    {{ $task['label'] }}
+                                </label>
+                            </td>
+                            <td class="px-4 py-2 text-gray-600 text-sm">
+                                {{ $task['description'] }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
         </div>
     </div>
 

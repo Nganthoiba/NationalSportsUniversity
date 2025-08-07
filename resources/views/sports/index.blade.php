@@ -33,20 +33,27 @@
                         <td class="py-2 px-4">{{ $sport->sport_name }}</td>
                         <td class="py-2 px-4">{{ $sport->sport_name_in_hindi }}</td>
                         <td class="py-2 px-4 space-x-2">
-                            <a href="{{ route('sports.edit', $sport->_id) }}" class="text-blue-600 hover:underline">Edit</a>
-                            @if ($sport->enabled)
-                                <form action="{{ route('sports.destroy', $sport->_id) }}" method="POST"
-                                    class="inline-block" onsubmit="return confirm('Are you sure to disable?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="text-red-600 hover:underline">Disable</button>
-                                </form>
-                            @else
-                                <form action="{{ route('sports.enable', $sport->_id) }}" method="POST" class="inline-block"
-                                    onsubmit="return confirm('Are you sure to restore?')">
-                                    @csrf
-                                    <button class="text-green-600 hover:underline">Restore</button>
-                                </form>
+                            @if (Auth::user()->hasPermission('edit_sport'))
+                                <a href="{{ route('sports.edit', $sport->_id) }}"
+                                    class="text-blue-600 hover:underline">Edit</a>
+                            @endif
+
+                            {{-- enable_or_disable_sport --}}
+                            @if (Auth::user()->hasPermission('enable_or_disable_sport'))
+                                @if ($sport->enabled)
+                                    <form action="{{ route('sports.destroy', $sport->_id) }}" method="POST"
+                                        class="inline-block" onsubmit="return confirm('Are you sure to disable?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="text-red-600 hover:underline">Disable</button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('sports.enable', $sport->_id) }}" method="POST"
+                                        class="inline-block" onsubmit="return confirm('Are you sure to restore?')">
+                                        @csrf
+                                        <button class="text-green-600 hover:underline">Restore</button>
+                                    </form>
+                                @endif
                             @endif
                         </td>
                     </tr>

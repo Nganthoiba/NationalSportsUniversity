@@ -143,9 +143,14 @@ class User extends Authenticatable implements
     //get university admin users
     public function scopeGetUniversityAdminUsers($query){
         //Get State Admin Role Id
-        $university_admin_role_id = Role::whereLike('role_name', 'University Admin%')->first();
+        $university_admin_role_ids = Role::whereLike('role_name', 'University Admin%')->get()->map(function($item){
+            return $item->id;
+        });
+
+        //dd($university_admin_role_ids);
+
         //Get all the user Ids from the user_role_mappings collection whose role id is above retrieved.
-        $user_ids = UserRoleMapping::where('role_id', $university_admin_role_id->id)->pluck('user_id');
+        $user_ids = UserRoleMapping::whereIn('role_id', $university_admin_role_ids)->pluck('user_id');
         $users = $query->whereIn('_id', $user_ids)->get()->map(function($user){
             $user->university_name = University::find($user->university_id)->name;
             $user->creator = User::find($user->created_by);
@@ -158,9 +163,13 @@ class User extends Authenticatable implements
     public function scopeGetUniversityUsers($query, $university_id = null){
         //Get State Admin Role Id
         $university_admin_role_ids = Role::whereIn('role_name', ['Super Admin'])
+        ->orWhereLike('role_name', 'University Admin%')
+        ->orderBy('role_name')
         ->get()->map(function($role){
             return $role->_id;
         });
+
+        
         //Get all the user Ids from the user_role_mappings collection whose role id is above retrieved.
         $user_ids = UserRoleMapping::whereIn('role_id', $university_admin_role_ids)->pluck('user_id'); 
         $query->whereNotIn('_id', $user_ids);

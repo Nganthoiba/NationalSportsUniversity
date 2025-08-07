@@ -42,7 +42,11 @@ class ExcelController extends Controller
                 'excel_file' => 'required|mimes:xlsx',
                 'matching_fields' => 'required|array',
                 'matching_fields.*' => 'required|string',
-                'batch' => 'required|string',
+                'batch' => 'required|array',
+                'batch.*' => 'required|string',
+                'batch.*' => 'distinct', // Ensure batch values are distinct
+                //Each batch should be in the format of YYYY-YY, e.g., 2023-24
+                'batch.*' => 'regex:/^\d{4}-\d{2}$/'
             ]);
         
         try {
@@ -105,8 +109,10 @@ class ExcelController extends Controller
             //foreach ($data as $student) {
                 $student = $data[$i];
 
-                if($request->batch !== $student['batch']){
-                    throw new Exception("Batch {$student['batch']} is invalid for the registration no. {$student['registration_no']}");
+                //if($request->batch !== $student['batch']){
+                if(!in_array($student['batch'], $request->input('batch'))){
+                    //throw new Exception("Batch {$student['batch']} is invalid for the registration no. {$student['registration_no']}");
+                    throw new Exception("Batch {$student['batch']} is not in the listed batch (".implode(',', $request->input('batch')).") for the registration no. {$student['registration_no']}");
                 }
 
                 $recordExist = Student::where([
@@ -245,13 +251,7 @@ class ExcelController extends Controller
     // Insert New Students
     private function importStudentIntoDatabase($data, $fileId) {
         // Prepare the data for bulk insert        
-        $studentsData = array_map(function ($data) use ($fileId) {            
-            // Check if the course is a sports course
-            // Retrieve sport required courses from the config
-            //$sport_required_courses = config('sports.sport_required_courses');
-
-            // Check if the course is a sports course
-            //$sport_required = in_array($data['course'], $sport_required_courses);
+        $studentsData = array_map(function ($data) use ($fileId) {    
             
             return array_merge($data, [
                 'created_at' => now(),
